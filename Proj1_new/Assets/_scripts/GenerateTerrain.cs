@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿//Hugh Edwards (584183) University of Melbourne Graphics and Interaction 2016
+
+using UnityEngine;
 using System.Collections;
 
 public class GenerateTerrain : MonoBehaviour {
@@ -7,13 +9,6 @@ public class GenerateTerrain : MonoBehaviour {
 	public float r = 0.5f;
 	public float p = 1.0f;
 
-	public int snow = 550;
-	public int rockMax = 500;
-	public int rockMin = 450;
-	public int grassMax = 350;
-	public int grassMin = 280;
-	public int sand = 260;
-	public float textureRand = 0.1f;
 	public int cornerMin = 250;
 	public int cornerMax = 480;
 
@@ -24,10 +19,6 @@ public class GenerateTerrain : MonoBehaviour {
 	
 
 	void Start () {
-
-        //Vector3 UNITY_LIGHTMODEL_AMBIENT = new Vector3(1.0F, 1.0F, 1.0F);
-
-            //r = r * n;
 
             //init empty 2d array
             a = new float[n,n];
@@ -45,41 +36,7 @@ public class GenerateTerrain : MonoBehaviour {
 			r = r *p;
 		}
 
-		//printArray ();
-
 		Terrain.activeTerrain.terrainData.SetHeights(0, 0, a);
-
-		setSplat ();
-
-        //ADDED
-
-
-        // Add a MeshFilter component to this entity. This essentially comprises of a
-        // mesh definition, which in this example is a collection of vertices, colours 
-        // and triangles (groups of three vertices). 
-        //MeshFilter cubeMesh = this.gameObject.AddComponent<MeshFilter>();
-        //cubeMesh.mesh = this.CreateCubeMesh();
-
-        // Add a MeshRenderer component. This component actually renders the mesh that
-        // is defined by the MeshFilter component.
-
-        //MeshRenderer renderer = this.gameObject.AddComponent<MeshRenderer>();
-        // renderer.material.shader = shader;
-
-
-
-        //commented out below
-        //Mesh mesh = GetComponent<MeshFilter>().mesh;
-        //Vector3[] vertices = mesh.vertices;
-        //Color[] colors = new Color[vertices.Length];
-
-        //for (int j = 0; j < vertices.Length; j++)
-        //    colors[j] = new Color(0.8F, 0.3F, 0.1F, 0.5F);
-
-        //mesh.colors = colors;
-
-
-        //end added
 
     }
 
@@ -175,16 +132,6 @@ public class GenerateTerrain : MonoBehaviour {
 
 	}
 
-	void printArray() {
-		for (int k = 0; k < n; k++) {
-			for (int j = 0; j < n; j++) {
-				if (a [k, j] > 0.99) {
-					print (a [k, j].ToString ());
-				}
-
-			}
-		}
-	}
 
 	void setCorners(float r, int n) {
 		a [0, 0] = randBetween (cornerMin, cornerMax)/600;
@@ -193,50 +140,7 @@ public class GenerateTerrain : MonoBehaviour {
 		a [n-1, 0] = randBetween (cornerMin, cornerMax)/600;
 	}
 		
-	void setSplat () {
 
-		TerrainData t = Terrain.activeTerrain.terrainData;
-		float[,,] map = new float[t.alphamapWidth, t.alphamapHeight, 4];
-
-		// For each point on the alphamap...
-		for (int y = 0; y < t.alphamapHeight; y++) {
-			for (int x = 0; x < t.alphamapWidth; x++) {
-				// Get the normalized terrain coordinate that
-				// corresponds to the the point.
-				float normX = x * 1.0f / (t.alphamapWidth - 1);
-				float normY = y * 1.0f / (t.alphamapHeight - 1);
-
-				float height = t.GetHeight(Mathf.RoundToInt(normY * t.heightmapHeight),Mathf.RoundToInt(normX * t.heightmapWidth) );
-				Mathf.Clamp01((t.heightmapHeight - height));
-
-				height = Mathf.FloorToInt((height * rand (textureRand)));
-
-
-				map[x, y, 0] = 0.0f;
-				map [x, y, 1] = 0.0f;
-				map[x, y, 2] = 0.0f;
-				map[x, y, 3] = 0.0f;
-
-				if (height > rockMax) {
-					map [x, y, 1] = 1.0f - (height - rockMax) / (snow-rockMax);
-					map [x, y, 3] = (height - rockMax) / (snow-rockMax);
-				} else if (height > rockMin) {
-					map [x, y, 1] = 1.0f;
-				} else if (height > grassMax) {
-					map [x, y, 0] = 1.0f - (height - grassMax) / (rockMin-grassMax);
-					map [x, y, 1] = (height - grassMax) / (rockMin-grassMax);
-				} else if (height > grassMin) {
-					map [x, y, 0] = 1.0f;
-				} else if (height > sand) {
-					map [x, y, 2] = 1.0f - (height - sand) / (grassMin-sand);
-					map [x, y, 0] = (height - sand) / (grassMin-sand);
-				} else {
-					map [x, y, 2] = 1.0f;
-				}
-			}
-		}
-		t.SetAlphamaps(0, 0, map);
-	}
 		
 	void OnTriggerEnter(Collider other) {
 		Application.Quit ();
@@ -245,19 +149,11 @@ public class GenerateTerrain : MonoBehaviour {
     void Update()
     {
 
-        Terrain t = Terrain.activeTerrain;//.terrainData;
+        Terrain t = Terrain.activeTerrain;
 
         t.materialType = Terrain.MaterialType.Custom;
         t.materialTemplate = new Material(shader);
         t.materialTemplate.SetColor("_PointLightColor", this.sun.color);
         t.materialTemplate.SetVector("_PointLightPosition", this.sun.GetWorldPosition());
-
-
-        // Get renderer component (in order to pass params to shader)
-        //MeshRenderer renderer = this.gameObject.GetComponent<MeshRenderer>();
-
-        // Pass updated light positions to shader
-        //renderer.material.SetColor("_PointLightColor", this.sun.color);
-        //renderer.material.SetVector("_PointLightPosition", this.sun.GetWorldPosition());
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿//Hugh Edwards (584183) University of Melbourne Graphics and Interaction 2016
+using UnityEngine;
 using System.Collections;
 
 public class PointLight : MonoBehaviour

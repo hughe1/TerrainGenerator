@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿//Hugh Edwards (584183) University of Melbourne Graphics and Interaction 2016
+using UnityEngine;
 using System.Collections;
 
 [AddComponentMenu("Camera-Control/Mouse Look")]
@@ -6,8 +7,8 @@ public class MouseLook : MonoBehaviour {
 
 
 	public float sensitivity = 10F;
-	public float minY = -60F;
-	public float maxY = 60F;
+	public float minY = -90F;
+	public float maxY = 90F;
 	public float speed=10.0F;
 	public float boostFactor = 4.0F;
 	public float tiltSpeed = 30.0f;
@@ -19,11 +20,8 @@ public class MouseLook : MonoBehaviour {
 	private float rotationZ = 0.0f;
 
 
-
-
 	void Update ()
 	{
-
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -35,13 +33,8 @@ public class MouseLook : MonoBehaviour {
 
         float rotationX = transform.localEulerAngles.y + (Input.GetAxis("Mouse X") * sensitivity);
 
-		//float zRad = Mathf.Deg2Rad * rotationZ;
-		//float rotationX = transform.localEulerAngles.y + (Input.GetAxis("Mouse Y") * Mathf.Sin(zRad) + Input.GetAxis("Mouse X") * Mathf.Cos(zRad))* sensitivity;
-
 
 		rotationY += (Input.GetAxis("Mouse Y") * sensitivity);
-
-		//rotationY  += (Input.GetAxis("Mouse Y") * Mathf.Cos(zRad) + Input.GetAxis("Mouse X") * Mathf.Sin(zRad))* sensitivity;
 
 		rotationY = Mathf.Clamp (rotationY, minY, maxY);
 
@@ -76,17 +69,6 @@ public class MouseLook : MonoBehaviour {
 		if (Input.GetKey (KeyCode.D)) {
 			this.transform.position += transform.right*speed*Time.deltaTime*boost;
 		}
-
-        //un comment all except the firdt terrainheight assignment
-		//TerrainData t = Terrain.activeTerrain.terrainData;
-
-
-		//float terrainHeight = t.GetHeight(Mathf.RoundToInt(this.transform.position.z-500),Mathf.RoundToInt(this.transform.position.x-500));
-
-		//float normX = (this.transform.position.x-500) * 1.0f / (t.alphamapWidth - 1);
-		//float normY = (this.transform.position.z-500) * 1.0f / (t.alphamapHeight - 1);
-
-		//float terrainHeight = t.GetHeight(Mathf.RoundToInt(normY * t.heightmapHeight),Mathf.RoundToInt(normX * t.heightmapWidth) );
 
 		this.transform.position = new Vector3 (
 			Mathf.Clamp(this.transform.position.x, -500, 500),

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿//Hugh Edwards (584183) University of Melbourne Graphics and Interaction 2016
+using UnityEngine;
 using System.Collections;
 
 public class Sun : MonoBehaviour
@@ -12,7 +13,6 @@ public class Sun : MonoBehaviour
         return this.transform.position;
     }
 
-    // Update is called once per frame
     void Update()
     {
         transform.RotateAround(Vector3.zero, new Vector3(1, 0, 0), moveSpeed * Time.deltaTime);
