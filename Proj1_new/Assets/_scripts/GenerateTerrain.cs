@@ -17,16 +17,20 @@ public class GenerateTerrain : MonoBehaviour {
 	public int cornerMin = 250;
 	public int cornerMax = 480;
 
-	private float[,] a;
+    public Shader shader;
+    public PointLight sun;
+
+    private float[,] a;
 	
 
 	void Start () {
-	
 
-		//r = r * n;
+        //Vector3 UNITY_LIGHTMODEL_AMBIENT = new Vector3(1.0F, 1.0F, 1.0F);
 
-		//init empty 2d array
-		a = new float[n,n];
+            //r = r * n;
+
+            //init empty 2d array
+            a = new float[n,n];
 
 		init ();
 
@@ -47,7 +51,37 @@ public class GenerateTerrain : MonoBehaviour {
 
 		setSplat ();
 
-	}
+        //ADDED
+
+
+        // Add a MeshFilter component to this entity. This essentially comprises of a
+        // mesh definition, which in this example is a collection of vertices, colours 
+        // and triangles (groups of three vertices). 
+        //MeshFilter cubeMesh = this.gameObject.AddComponent<MeshFilter>();
+        //cubeMesh.mesh = this.CreateCubeMesh();
+
+        // Add a MeshRenderer component. This component actually renders the mesh that
+        // is defined by the MeshFilter component.
+
+        //MeshRenderer renderer = this.gameObject.AddComponent<MeshRenderer>();
+        // renderer.material.shader = shader;
+
+
+
+        //commented out below
+        //Mesh mesh = GetComponent<MeshFilter>().mesh;
+        //Vector3[] vertices = mesh.vertices;
+        //Color[] colors = new Color[vertices.Length];
+
+        //for (int j = 0; j < vertices.Length; j++)
+        //    colors[j] = new Color(0.8F, 0.3F, 0.1F, 0.5F);
+
+        //mesh.colors = colors;
+
+
+        //end added
+
+    }
 
 	float rand(float r)
 	{
@@ -207,4 +241,23 @@ public class GenerateTerrain : MonoBehaviour {
 	void OnTriggerEnter(Collider other) {
 		Application.Quit ();
 	}
+
+    void Update()
+    {
+
+        Terrain t = Terrain.activeTerrain;//.terrainData;
+
+        t.materialType = Terrain.MaterialType.Custom;
+        t.materialTemplate = new Material(shader);
+        t.materialTemplate.SetColor("_PointLightColor", this.sun.color);
+        t.materialTemplate.SetVector("_PointLightPosition", this.sun.GetWorldPosition());
+
+
+        // Get renderer component (in order to pass params to shader)
+        //MeshRenderer renderer = this.gameObject.GetComponent<MeshRenderer>();
+
+        // Pass updated light positions to shader
+        //renderer.material.SetColor("_PointLightColor", this.sun.color);
+        //renderer.material.SetVector("_PointLightPosition", this.sun.GetWorldPosition());
+    }
 }

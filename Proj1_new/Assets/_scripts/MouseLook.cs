@@ -25,8 +25,15 @@ public class MouseLook : MonoBehaviour {
 	{
 
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (Cursor.visible == true)
+            { Cursor.visible = false; }
+            else
+            { Cursor.visible = true; }
+        }
 
-		float rotationX = transform.localEulerAngles.y + (Input.GetAxis("Mouse X") * sensitivity);
+        float rotationX = transform.localEulerAngles.y + (Input.GetAxis("Mouse X") * sensitivity);
 
 		//float zRad = Mathf.Deg2Rad * rotationZ;
 		//float rotationX = transform.localEulerAngles.y + (Input.GetAxis("Mouse Y") * Mathf.Sin(zRad) + Input.GetAxis("Mouse X") * Mathf.Cos(zRad))* sensitivity;
