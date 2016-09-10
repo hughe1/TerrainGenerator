@@ -52,6 +52,7 @@ Shader "Unlit/PhongShader"
 
 				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
 				o.color = v.color;
+
 				o.worldVertex = worldVertex;
 				o.worldNormal = worldNormal;
 
@@ -60,33 +61,30 @@ Shader "Unlit/PhongShader"
 
 			fixed4 frag(vertOut v) : SV_Target
 			{
-				float3 interpNormal = normalize(v.worldNormal);
+
+				float3 interNormal = normalize(v.worldNormal);
 
 				float Ka = 1;
-				float3 amb = v.color.rgb * UNITY_LIGHTMODEL_AMBIENT.rgb * Ka;
-
-
-				float fAtt = 1;
+				float F = 1;
 				float Kd = 1;
-				float3 L = normalize(_PointLightPosition - v.worldVertex.xyz);
-				float LdotN = dot(L, interpNormal);
-				float3 dif = fAtt * _PointLightColor.rgb * Kd * v.color.rgb * saturate(LdotN);
-
 				float Ks = 1;
-				float specN = 5; 
+				float N = 5;
+
+				float3 L = normalize(_PointLightPosition - v.worldVertex.xyz);
 				float3 V = normalize(_WorldSpaceCameraPos - v.worldVertex.xyz);
-
-				specN = 25; 
+				float LN = dot(L, interNormal);
 				float3 H = normalize(V + L);
-				float3 spe = fAtt * _PointLightColor.rgb * Ks * pow(saturate(dot(interpNormal, H)), specN);
 
-				float4 returnColor = float4(0.0f, 0.0f, 0.0f, 0.0f);
-				returnColor.rgb = amb.rgb + dif.rgb + spe.rgb;
+				float3 diffuse = Kd * v.color.rgb * F * _PointLightColor.rgb  * saturate(LN);
+				float3 ambient = Ka * v.color.rgb * UNITY_LIGHTMODEL_AMBIENT.rgb;
+				float3 specular = Ks * _PointLightColor.rgb * F * pow(saturate(dot(interNormal, H)), N);
 
-				returnColor.a = v.color.a;
+				float4 returnCol = float4(0.0f, 0.0f, 0.0f, 0.0f);
+				returnCol.rgb = ambient.rgb + diffuse.rgb + specular.rgb;
+				returnCol.a = v.color.a;
 
+				return returnCol;
 
-				return returnColor;
 			}
 			ENDCG
 		}

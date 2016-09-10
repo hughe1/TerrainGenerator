@@ -141,11 +141,6 @@ public class GenerateTerrain : MonoBehaviour {
 	}
 		
 
-		
-	void OnTriggerEnter(Collider other) {
-		Application.Quit ();
-	}
-
     void Update()
     {
 

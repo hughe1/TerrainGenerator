@@ -2,7 +2,7 @@ This is a flight simulator with procedurally generated terrain, built by Hugh Ed
 
 -- Description
 
-	Upon each instantiation of the program, terrain is randomly generated according to the diamond square algorithm. Terrain texture corresponds to its height, and semi-transparent water is present. The player controls a flying camera. If the camera collides with the terrain or water, it 'crashes' and is reset to its starting position. The sun also moves around the terrain.
+	Upon each instantiation of the program, terrain is randomly generated according to the diamond square algorithm. Terrain texture corresponds to its height, and semi-transparent water is present. The player controls a flying camera. If the camera collides with the terrain or water, it 'crashes' and is reset to its starting position. The sun also moves around the terrain (speeding up when below the horizon to make the nights short!).
 
 -- Controls
 
@@ -17,8 +17,6 @@ This is a flight simulator with procedurally generated terrain, built by Hugh Ed
 	
 
 -- Resources
-
-	Four textures from Unity standard assets have been used
 
 	The .gitignore file was taken from from https://github.com/github/gitignore/blob/master/Unity.gitignore
 
