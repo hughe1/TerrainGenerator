@@ -1,4 +1,4 @@
-This is a flight simulator with procedurally generated terrain, built by Hugh Edwards (584183) for the University of Melbourne Graphics and Interaction assignment 1. It was completed on 8 September 2016. It was made with Unity.
+This is a flight simulator with procedurally generated terrain, built by Hugh Edwards (584183) and Daniel Porteous (696965) for the University of Melbourne Graphics and Interaction assignment 1. It was completed on 11 September 2016. It was made with Unity.
 
 -- Description
 
